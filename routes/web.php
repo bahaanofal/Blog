@@ -21,3 +21,10 @@ Route::get('/', function () {
 Route::get('/all-posts', [UsersPostsController::class, 'allPosts'])->name('usersPosts');
 
 Route::resource('posts', UsersPostsController::class);
+
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';

@@ -11,6 +11,7 @@ class HomeFrontLayout extends Component
     public $image;
     public $heading;
     public $username;
+    public $loggedUser;
     
     /**
      * Create a new component instance.

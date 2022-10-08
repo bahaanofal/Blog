@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 
 class UsersPostsController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'allPosts', 'show']);
+    }
+
     public function allPosts()
     {
         $usersPosts = User::with('posts')->get();
