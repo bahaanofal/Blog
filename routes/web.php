@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\front\CommentsController;
 use App\Http\Controllers\front\UsersPostsController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,8 @@ Route::get('/all-posts', [UsersPostsController::class, 'allPosts'])->name('users
 
 Route::resource('posts', UsersPostsController::class);
 
+Route::get('posts/{post_id}/comments/create', [CommentsController::class, 'create'])->name('comments.create');
+Route::post('posts/{post_id}/comments', [CommentsController::class, 'store'])->name('comments.store');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

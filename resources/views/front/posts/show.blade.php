@@ -1,4 +1,4 @@
-<x-home-front-layout pgTitle="{{$post->title}}" pgSubTitle="{{$post->sub_title}}" image="/assets/front/assets/img/post-bg.jpg"  heading="post-heading" username="{{ $post->user->name }}">
+<x-home-front-layout pgTitle="{{$post->title}}" pgSubTitle="{{$post->sub_title}}" image="/assets/front/assets/img/post-bg.jpg" heading="post-heading" username="{{ $post->user->name }}">
     <!-- Post Content-->
     <article class="mb-4">
         <div class="container px-4 px-lg-5">
@@ -12,6 +12,34 @@
                     <p>{{ $post->image_description }}</p>
                 </div>
                 <span class="caption text-muted">created by <a href="#"><span style="text-decoration: underline;"> {{ $post->user->name }} </span></a>, at {{ $post->created_at->format('d:m:y h:m:s a') }}</span>
+            </div>
+            <br>
+            <hr class="my-4" />
+        </div>
+    </article>
+
+    <article class="mb-4">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <h3>Comments - {{$comments->count()}}</h3>
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    @foreach($comments as $comment)
+                    <div class="post-preview">
+                        <h6>
+                            Comment by
+                            <a href=""><span style="text-decoration: underline;">{{$comment->user->name}}</span></a>
+                        </h6>
+                        <div class="post-meta" style="font-size:small;">at {{ $comment->created_at->format('d M Y - h:i:s a') }}</div>
+                        <p class="post-meta">{{$comment->comment}}</p>
+                    </div>
+                    <hr />
+                    @endforeach
+                    <div class="d-flex justify-content-end mb-4">
+                        <a class="btn btn-primary text-uppercase" href="{{ route('comments.create', $post->id) }}">
+                            add comment
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </article>

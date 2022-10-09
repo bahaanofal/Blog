@@ -19,11 +19,11 @@ class PostFactory extends Factory
     {
         $user = DB::table('users')->inRandomOrder()->limit(1)->first(['id']);
         return [
-            'title' => fake()->words(5, true),
-            'sub_title' => fake()->words(7, true),
-            'paragraph' => fake()->words(150, true),
-            'image_path' => fake()->imageUrl(),
-            'image_description' => fake()->words(150, true),
+            'title' => $this->faker->words(5, true),
+            'sub_title' => $this->faker->words(7, true),
+            'paragraph' => $this->faker->words(150, true),
+            'image_path' => $this->faker->imageUrl(),
+            'image_description' => $this->faker->words(150, true),
             'user_id' => $user ? $user->id : null,
         ];
     }

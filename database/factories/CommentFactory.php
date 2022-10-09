@@ -20,7 +20,7 @@ class CommentFactory extends Factory
         $user = DB::table('users')->inRandomOrder()->limit(1)->first(['id']);
         $post = DB::table('posts')->inRandomOrder()->limit(1)->first(['id']);
         return [
-            'comment' => fake()->text(50),
+            'comment' => $this->faker->words(50, true),
             'user_id' => $user ? $user->id : null,
             'post_id' => $post ? $post->id : null,
         ];

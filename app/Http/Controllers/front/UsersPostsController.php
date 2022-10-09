@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -83,7 +84,8 @@ class UsersPostsController extends Controller
     public function show($id)
     {
         $post = Post::find($id);
-        return view('front.posts.show', compact('post'));
+        $comments = Comment::where('post_id', '=', $id)->latest()->get();
+        return view('front.posts.show', compact(['post', 'comments']));
     }
 
     /**
