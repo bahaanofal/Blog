@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UsersPostsController extends Controller
 {
@@ -18,8 +20,7 @@ class UsersPostsController extends Controller
     public function allPosts()
     {
         $usersPosts = User::with('posts')->get();
-        $postsNumber = User::with('posts')->count();
-        // dd($usersPosts);
+        $postsNumber = DB::table('posts')->count();
         return view('front.posts.allPosts', [
             'users' => $usersPosts,
             'postsNumber' => $postsNumber,
@@ -63,11 +64,11 @@ class UsersPostsController extends Controller
             'sub_title' => 'required|string|max:100|min:3',
             'paragraph' => 'required|min:5',
             'image_path' => 'required|image',
-            'image_description' => 'required|min:5'
+            'image_description' => 'required|min:5',
         ];
         $request->validate($rules);
         $request->merge([
-            'user_id' => '1'
+            'user_id' => Auth::user()->id,
         ]);
         $post = Post::create($request->all());
         return redirect()->route('posts.index');
@@ -106,7 +107,21 @@ class UsersPostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = Post::find($id);
+        $rules = [
+            'title' => 'required|string|max:100|min:3',
+            'sub_title' => 'required|string|max:100|min:3',
+            'paragraph' => 'required|min:5',
+            'image_path' => 'required|image',
+            'image_description' => 'required|min:5',
+            
+        ];
+        $request->validate($rules);
+        $request->merge([
+            'user_id' => Auth::user()->id,
+        ]);
+        $post->update($request->all());
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -117,6 +132,7 @@ class UsersPostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::destroy($id);
+        return redirect()->route('posts.index');
     }
 }
