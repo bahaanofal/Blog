@@ -69,9 +69,13 @@ class CommentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($postId, $commentId)
     {
-        //
+        $post = Post::find($postId);
+        $comment = Comment::find($commentId);
+        if (Auth::user()->id == $comment->user_id) {
+            return view('front.comments.edit', compact(['post', 'comment']));
+        }
     }
 
     /**
@@ -81,9 +85,20 @@ class CommentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $postId, $commentId)
     {
-        //
+        $rules = [
+            'comment' => 'required|min:5'
+        ];
+        $request->validate($rules);
+        $request->merge([
+            'post_id' => $postId,
+            'user_id' => Auth::user()->id,
+        ]);
+
+        $comment = Comment::find($commentId);
+        $comment->update($request->all());
+        return redirect()->route('posts.show', [$postId]);
     }
 
     /**
@@ -92,8 +107,9 @@ class CommentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($postId, $commentId)
     {
-        //
+        $comment = Comment::destroy($commentId);
+        return redirect()->route('posts.show', $postId);
     }
 }

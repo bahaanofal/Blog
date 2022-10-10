@@ -23,8 +23,11 @@ Route::get('/all-posts', [UsersPostsController::class, 'allPosts'])->name('users
 
 Route::resource('posts', UsersPostsController::class);
 
-Route::get('posts/{post_id}/comments/create', [CommentsController::class, 'create'])->name('comments.create');
-Route::post('posts/{post_id}/comments', [CommentsController::class, 'store'])->name('comments.store');
+Route::get('post/{post_id}/comments/create', [CommentsController::class, 'create'])->name('comments.create');
+Route::post('post/{post_id}/comments', [CommentsController::class, 'store'])->name('comments.store');
+Route::get('post/{post_id}/comments/{comment_id}/edit', [CommentsController::class, 'edit'])->name('comments.edit');
+Route::put('post/{post_id}/comments/{comment_id}', [CommentsController::class, 'update'])->name('comments.update');
+Route::delete('post/{post_id}/comments/{comment_id}', [CommentsController::class, 'destroy'])->name('comments.destroy');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

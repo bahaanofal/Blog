@@ -32,6 +32,25 @@
                         <div class="post-meta" style="font-size:small;">at {{ $comment->created_at->format('d M Y - h:i:s a') }}</div>
                         <p class="post-meta">{{$comment->comment}}</p>
                     </div>
+                    @if(Auth::user()->id == $comment->user_id)
+                    <div>
+                        <div style="float:right; justify-content:center;">
+                            <a href="{{ route('comments.edit', [$post->id, $comment->id]) }}">
+                                <i class="fa-solid fa-file-pen"></i>
+                            </a>
+                        </div>
+                        <div style="float:right">
+                            <form action="{{ route('comments.destroy', [$post->id, $comment->id]) }}" method="post">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="btn btn-lg deleteBtn" style="padding: 0 10px;">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                        <br>
+                    </div>
+                    @endif
                     <hr />
                     @endforeach
                     <div class="d-flex justify-content-end mb-4">
